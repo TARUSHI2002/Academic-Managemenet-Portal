@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > FacultyDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.user.faculty</a>
+</div>
+
+<h1>Coverage Summary for Class: FacultyDetails (org.example.user.faculty)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">FacultyDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97.7%
+  </span>
+  <span class="absValue">
+    (84/86)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.user.faculty;
+&nbsp;
+&nbsp;import com.opencsv.CSVReader;
+&nbsp;
+&nbsp;import org.example.Course.Course;
+&nbsp;import org.example.user.User;
+&nbsp;import org.example.user.admin.AdminDetails;
+&nbsp;import org.example.user.database.Delete;
+&nbsp;import org.example.user.database.Insert;
+&nbsp;import org.example.user.database.Search;
+&nbsp;import org.example.user.database.Update;
+&nbsp;
+&nbsp;import java.io.*;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.Formatter;
+&nbsp;import java.util.Scanner;
+&nbsp;
+&nbsp;public class FacultyDetails extends User {
+&nbsp;    public FacultyDetails(String id, String enrol_year, String password){
+<b class="fc">&nbsp;        super(id,enrol_year,password);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public static int ChooseFunction() {
+<b class="fc">&nbsp;        Scanner sc = new Scanner(System.in);</b>
+<b class="fc">&nbsp;        System.out.println(</b>
+&nbsp;                &quot;Choose what you want to do?\n1.Offer a course\n2. Upload .csv file containing grades of all students of your course\n3.View grades of all students\n4.Remove a Course Offered\n5.Logout\n&quot;);
+<b class="fc">&nbsp;        int choice = sc.nextInt();</b>
+<b class="fc">&nbsp;        return choice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int view_grades() throws SQLException {
+<b class="fc">&nbsp;        int count=0;</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM grades_info&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        Formatter fmt = new Formatter();</b>
+<b class="fc">&nbsp;        fmt.format(&quot;%15s %15s %15s\n&quot;, &quot;Student&quot;,&quot;Grade&quot;, &quot;Course&quot;);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            fmt.format(&quot;%15s %15s %15s\n&quot;, rs.getString(&quot;student&quot;),rs.getString(&quot;grade&quot;), rs.getString(&quot;course&quot;));</b>
+<b class="fc">&nbsp;            ++count;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(fmt);</b>
+<b class="fc">&nbsp;        return count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int deregister() throws IOException, SQLException {
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        String course_code = Course.getCourseCode(br);</b>
+<b class="fc">&nbsp;        String year = AdminDetails.getCurrYear();</b>
+<b class="fc">&nbsp;        int allowed = AdminDetails.getCurrCond();</b>
+<b class="fc">&nbsp;        if(allowed == 2){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String query1 = &quot;SELECT id from c_&quot;+course_code+&quot;_&quot;+year;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query1);</b>
+<b class="fc">&nbsp;        while(rs.next()){</b>
+<b class="fc">&nbsp;            Delete.delete(&quot;DELETE from id_&quot;+rs.getString(&quot;id&quot;)+&quot; where course_code = &#39;&quot;+course_code+&quot;&#39;&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String query4 = &quot;SELECT * FROM courses_offered WHERE course_code = &#39;&quot;+course_code+&quot;&#39; AND year = &#39;&quot;+year+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        rs = Search.find(query4);</b>
+<b class="fc">&nbsp;        if(rs.next()==false){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Course Not offered!!&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        String query2 = &quot;DROP TABLE c_&quot;+course_code+&quot;_&quot;+year;</b>
+<b class="fc">&nbsp;        String query3 = &quot;DELETE FROM courses_offered WHERE course_code = &#39;&quot;+course_code+&quot;&#39; AND year = &#39;&quot;+year+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;       return Delete.delete_course_faculty(query2,query3);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getPath(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;File Path: &quot;);</b>
+<b class="fc">&nbsp;        String path = br.readLine();</b>
+<b class="fc">&nbsp;        return path;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getCourse(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Course: &quot;);</b>
+<b class="fc">&nbsp;        String course = br.readLine();</b>
+<b class="fc">&nbsp;        return course;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int uploadCSV() throws SQLException, IOException {
+<b class="fc">&nbsp;        int count=0;</b>
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        String course = getCourse(br);</b>
+<b class="fc">&nbsp;        String year = AdminDetails.getCurrYear();</b>
+<b class="fc">&nbsp;        String path = getPath(br);</b>
+<b class="fc">&nbsp;        FileReader filereader = new FileReader(path);</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            CSVReader csvReader = new CSVReader(filereader);</b>
+&nbsp;            String[] nextRecord;
+&nbsp;            // we are going to read data line by line
+<b class="fc">&nbsp;            while ((nextRecord = csvReader.readNext()) != null) {</b>
+<b class="fc">&nbsp;                String id = nextRecord[0];</b>
+<b class="fc">&nbsp;                String grade = nextRecord[1];</b>
+<b class="fc">&nbsp;                System.out.println(id);</b>
+<b class="fc">&nbsp;                System.out.println(grade);</b>
+<b class="fc">&nbsp;                String query1 = &quot;UPDATE c_&quot;+course+&quot;_&quot;+year+&quot; SET grade = &#39;&quot;+ grade+&quot;&#39;,status = &#39;complete&#39; WHERE id = &#39;&quot;+id+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;                String query2 = &quot;UPDATE id_&quot;+id+&quot; SET grade= &#39;&quot; + grade + &quot;&#39;,status = &#39;complete&#39; WHERE course_code = &#39;&quot; + course + &quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;                String query3 = &quot;INSERT INTO grades_info VALUES(&#39;&quot;+id+&quot;&#39;,&#39;&quot;+grade+&quot;&#39;,&#39;&quot;+course+&quot;&#39;)&quot;;</b>
+<b class="fc">&nbsp;                Update.change_condition(query1);</b>
+<b class="fc">&nbsp;                Update.change_condition(query2);</b>
+<b class="fc">&nbsp;                Insert.add_course(query3);</b>
+<b class="fc">&nbsp;                ++count;</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int course_offer(String user) throws SQLException, IOException {
+<b class="fc">&nbsp;        int allowed = AdminDetails.getCurrCond();</b>
+<b class="fc">&nbsp;        if(allowed == 2){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Course.display_courses();</b>
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        String course_code = Course.getCourseCode(br);</b>
+<b class="fc">&nbsp;        boolean isValid = Course.getCourse(course_code,AdminDetails.getCurrYear());</b>
+<b class="fc">&nbsp;        float cgpa = Course.getCGPA(br);</b>
+<b class="fc">&nbsp;        String year = AdminDetails.getCurrYear();</b>
+<b class="fc">&nbsp;        int sem = AdminDetails.getCurrSem();</b>
+<b class="fc">&nbsp;        if(isValid){</b>
+<b class="fc">&nbsp;           Insert.add_course(&quot;INSERT INTO courses_offered VALUES(&#39;&quot;+course_code+&quot;&#39;,&quot;+cgpa+&quot;,&#39;&quot;+year+&quot;&#39;,&quot;+sem+&quot;,&#39;&quot;+user+&quot;&#39;)&quot;);</b>
+<b class="fc">&nbsp;           Update.change_condition(&quot;CREATE table c_&quot;+course_code+&quot;_&quot;+year+&quot;(id varchar(200) NOT NULL,grade varchar(200),status varchar(200) NOT NULL,CONSTRAINT course_info_&quot;+user+&quot;_&quot;+course_code+&quot;_&quot;+year+&quot;_&quot;+sem+&quot; PRIMARY KEY(id));&quot;);</b>
+<b class="fc">&nbsp;           return 1;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;Course not in course Catalog/Already a faculty offered it.&quot;);</b>
+<b class="fc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public static float getcgpa(String course, String curr_year) throws SQLException {
+<b class="fc">&nbsp;       String query = &quot;SELECT * FROM courses_offered WHERE course_code=&#39;&quot;+course+&quot;&#39; AND year=&#39;&quot;+curr_year+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;       ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;       rs.next();</b>
+<b class="fc">&nbsp;       return rs.getFloat(&quot;cgpa&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-08 03:09</div>
+</div>
+</body>
+</html>

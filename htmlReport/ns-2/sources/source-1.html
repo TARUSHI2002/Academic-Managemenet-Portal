@@ -1,0 +1,301 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Course</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.Course</a>
+</div>
+
+<h1>Coverage Summary for Class: Course (org.example.Course)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Course</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (25/25)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (98/98)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.Course;
+&nbsp;
+&nbsp;import org.example.user.database.Insert;
+&nbsp;import org.example.user.database.Search;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.Formatter;
+&nbsp;import java.util.Random;
+&nbsp;import java.util.Scanner;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+<b class="fc">&nbsp;public class Course {</b>
+&nbsp;    public String courseCode;
+&nbsp;    public String LTP;
+&nbsp;    public String pre_requisite;
+&nbsp;    public String core;
+&nbsp;    public String Elec;
+&nbsp;    public String Year;
+&nbsp;
+&nbsp;    public static String getCourseCode(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Course Code: &quot;);</b>
+<b class="fc">&nbsp;        String course_code = br.readLine();</b>
+<b class="fc">&nbsp;        return course_code;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getLTP(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;L-T-P: &quot;);</b>
+<b class="fc">&nbsp;        String LTP = br.readLine();</b>
+<b class="fc">&nbsp;        return LTP;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getPreRequisite(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Pre Requisite: &quot;);</b>
+<b class="fc">&nbsp;        String pre = br.readLine();</b>
+<b class="fc">&nbsp;        return pre;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getCore(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Core Branches: &quot;);</b>
+<b class="fc">&nbsp;        String core = br.readLine();</b>
+<b class="fc">&nbsp;        return core;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getElective(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Elective Branches: &quot;);</b>
+<b class="fc">&nbsp;        String elec = br.readLine();</b>
+<b class="fc">&nbsp;        return elec;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int getYear(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Enter the year(1st/2nd/3rd/4th) for which course should be offered: &quot;);</b>
+<b class="fc">&nbsp;        String year = br.readLine();</b>
+<b class="fc">&nbsp;        return Integer.parseInt(year);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int getSem(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.print(&quot;Enter the sem(1st/2nd) in which course should be offered: &quot;);</b>
+<b class="fc">&nbsp;        String sem = br.readLine();</b>
+<b class="fc">&nbsp;        return Integer.parseInt(sem);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int display_courses() throws SQLException, IOException {
+<b class="fc">&nbsp;        int count=0;</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        Formatter fmt = new Formatter();</b>
+<b class="fc">&nbsp;        fmt.format(&quot;%15s %15s %15s %15s %15s %15s %15s\n&quot;, &quot;Course Code&quot;, &quot;L-T-P&quot;, &quot;PreRequisite&quot;, &quot;Core Branch&quot;,</b>
+&nbsp;                &quot;Elective Branches&quot;,&quot;Year&quot;,&quot;Sem&quot;);
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            fmt.format(&quot;%15s %15s %15s %15s %15s %15s %15s\n&quot;, rs.getString(&quot;course_code&quot;), rs.getString(&quot;ltp&quot;),</b>
+<b class="fc">&nbsp;                    rs.getString(&quot;pre_requisite&quot;), rs.getString(&quot;core&quot;), rs.getString(&quot;branch&quot;),rs.getString(&quot;year&quot;),rs.getString(&quot;sem&quot;));</b>
+<b class="fc">&nbsp;        ++count;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(fmt);</b>
+<b class="fc">&nbsp;        return count;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean getCourse(String course_code,String year) throws SQLException {
+<b class="fc">&nbsp;        ResultSet rs1 = Search.find(&quot;SELECT * FROM course_catalog where course_code = &#39;&quot;+course_code+&quot;&#39;&quot;);</b>
+<b class="fc">&nbsp;        boolean rt1 = rs1.next();</b>
+<b class="fc">&nbsp;        ResultSet rs2 = Search.find(&quot;SELECT * FROM courses_offered where course_code = &#39;&quot;+course_code+&quot;&#39; AND year= &#39;&quot;+year+&quot;&#39;&quot;);</b>
+<b class="fc">&nbsp;        boolean rt2=rs2.next();</b>
+<b class="fc">&nbsp;        if(rt1==true &amp;&amp; rt2==false)return true ;</b>
+<b class="fc">&nbsp;        else return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static float getCGPA(BufferedReader br) throws IOException {
+<b class="fc">&nbsp;        System.out.println(&quot;Enter the CGPA criteria: &quot;);</b>
+<b class="fc">&nbsp;        String cgpa = br.readLine();</b>
+<b class="fc">&nbsp;        return Float.parseFloat(cgpa);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean IsCgpaAllow(float stu_cgpa,float faculty_cgpa){
+<b class="fc">&nbsp;        if(stu_cgpa&gt;=faculty_cgpa) return true;</b>
+<b class="fc">&nbsp;        else return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int getCourseYear(String course_code) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog where course_code=&#39;&quot;+course_code+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        return rs.getInt(&quot;year&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean IsYearAllow(int year, int course_year) {
+<b class="fc">&nbsp;        if (year == course_year) return true;</b>
+<b class="fc">&nbsp;        else return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int getCourseSem(String course_code) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog where course_code=&#39;&quot;+course_code+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        return rs.getInt(&quot;sem&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean IsSemAllow(int curr_sem,int allowed_sem){
+<b class="fc">&nbsp;        if (curr_sem == allowed_sem) return true;</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String GetCore(String course_code) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog where course_code=&#39;&quot;+course_code+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        return rs.getString(&quot;core&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String GetElectives(String course_code) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog where course_code=&#39;&quot;+course_code+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        return rs.getString(&quot;branch&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean IsCreditsAllow(double credits_possible,int credits_now){
+<b class="fc">&nbsp;        if(credits_now&lt;=credits_possible)return true;</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static  String getRequisite(String course_code, int year) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT pre_requisite FROM course_catalog where course_code = &#39;&quot;+course_code+&quot;&#39; AND year = &quot;+year;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        System.out.println(rs.getString(&quot;pre_requisite&quot;));</b>
+<b class="fc">&nbsp;        return rs.getString(&quot;pre_requisite&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean isRegisterAllow(boolean isCGPAllowed,boolean isYearAllowed,boolean isSemAllowed,boolean isCreditsAllowed, boolean choice){
+<b class="fc">&nbsp;        if(isCGPAllowed &amp;&amp; isYearAllowed &amp;&amp; isSemAllowed &amp;&amp; isCreditsAllowed &amp;&amp; choice) return true;</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int findCredits(String course) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM course_catalog where course_code=&#39;&quot;+course+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs =Search.find(query);</b>
+<b class="fc">&nbsp;        rs.next();</b>
+<b class="fc">&nbsp;        String ltp = rs.getString(&quot;ltp&quot;);</b>
+<b class="fc">&nbsp;        Scanner scan = new Scanner(ltp);</b>
+<b class="fc">&nbsp;        scan.useDelimiter(&quot;-&quot;);</b>
+<b class="fc">&nbsp;        int l = Integer.parseInt(scan.next());</b>
+<b class="fc">&nbsp;        scan.next();</b>
+<b class="fc">&nbsp;        int p=Integer.parseInt(scan.next());</b>
+<b class="fc">&nbsp;        return (l+p)/2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void register(String course_code,String curr_year,String user, int year,int sem,int credits,String type){
+<b class="fc">&nbsp;        String query = &quot;INSERT into c_&quot;+course_code+&quot;_&quot;+curr_year+&quot; VALUES(&#39;&quot;+user+&quot;&#39;,&#39;&#39;,&#39;enrolled&#39;)&quot;;</b>
+<b class="fc">&nbsp;        Insert.add_course(query);</b>
+<b class="fc">&nbsp;        String query2 = &quot;INSERT into id_&quot;+user+&quot; VALUES(&#39;&quot;+course_code+&quot;&#39;,&quot;+year+&quot;,&quot;+sem+&quot;,&#39;&#39;,&quot;+credits+&quot;,&#39;enrolled&#39;,&#39;&quot;+type+&quot;&#39;)&quot;;</b>
+<b class="fc">&nbsp;        Insert.add_course(query2);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public static int earnedCore(String id) throws SQLException {
+<b class="fc">&nbsp;        int credits=0;</b>
+<b class="fc">&nbsp;        ResultSet rs =  Search.find(&quot;SELECT * FROM id_&quot;+id+&quot; where status=&#39;complete&#39; and type=&#39;core&#39;&quot;);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return credits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int earnedElective(String id) throws SQLException {
+<b class="fc">&nbsp;        int credits=0;</b>
+<b class="fc">&nbsp;        ResultSet rs =  Search.find(&quot;SELECT * FROM id_&quot;+id+&quot; where status=&#39;complete&#39; and type = &#39;elective&#39;&quot;);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return credits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-08 03:09</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Main</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example</a>
+</div>
+
+<h1>Coverage Summary for Class: Main (org.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Main</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example;
+&nbsp;import org.example.Course.*;
+&nbsp;import org.example.user.*;
+&nbsp;import org.example.user.admin.*;
+&nbsp;import org.example.user.faculty.FacultyDetails;
+&nbsp;import org.example.user.student.StudentDetails;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.Scanner;
+&nbsp;
+<b class="nc">&nbsp;public class Main {</b>
+&nbsp;    public static void main(String[] args) throws IOException, SQLException {
+<b class="nc">&nbsp;        boolean exit=false;</b>
+<b class="nc">&nbsp;        while(!exit){</b>
+<b class="nc">&nbsp;            int user_type=User.getUserType();</b>
+<b class="nc">&nbsp;            switch(user_type){</b>
+&nbsp;                case 1:{
+<b class="nc">&nbsp;                    String user = User.getId();</b>
+<b class="nc">&nbsp;                    String password = User.getPassword();</b>
+<b class="nc">&nbsp;                    String enrol_year = User.find_User(user, password, &quot;admin&quot;);</b>
+<b class="nc">&nbsp;                    String validity = User.IsInvalid(enrol_year);</b>
+<b class="nc">&nbsp;                    if (validity.equals(&quot;Yes&quot;)){</b>
+<b class="nc">&nbsp;                        User.InvalidUser();</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    AdminDetails admin = new AdminDetails(user, enrol_year, password);</b>
+<b class="nc">&nbsp;                    int admin_on=1;</b>
+<b class="nc">&nbsp;                    while(admin_on==1){</b>
+<b class="nc">&nbsp;                        int choice = admin.ChooseFunction();</b>
+<b class="nc">&nbsp;                        switch (choice){</b>
+&nbsp;                            case 1:{
+<b class="nc">&nbsp;                                Course.display_courses();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 2:{
+<b class="nc">&nbsp;                                admin.add_course();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 3:{
+<b class="nc">&nbsp;                                admin.delete_course();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 4:{
+<b class="nc">&nbsp;                                admin.change_condition();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 5:{
+<b class="nc">&nbsp;                                admin.generate_transcript();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 6:{
+<b class="nc">&nbsp;                                admin.view_grades();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 7:{
+<b class="nc">&nbsp;                                admin.changeYear();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 8:{
+<b class="nc">&nbsp;                                admin.changeSem();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 9:{
+<b class="nc">&nbsp;                                admin.checkGraduation();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 10:{
+<b class="nc">&nbsp;                                admin_on =0;</b>
+&nbsp;                            }break;
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                }break;</b>
+&nbsp;                case 2:{
+<b class="nc">&nbsp;                    String user = User.getId();</b>
+<b class="nc">&nbsp;                    String pass = User.getPassword();</b>
+<b class="nc">&nbsp;                    String enrol_year = User.find_User(user, pass, &quot;student&quot;);</b>
+<b class="nc">&nbsp;                    String validity = User.IsInvalid(enrol_year);</b>
+<b class="nc">&nbsp;                    if (validity.equals(&quot;Yes&quot;)) {</b>
+<b class="nc">&nbsp;                        User.InvalidUser();</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    StudentDetails student = new StudentDetails(user, enrol_year, pass);</b>
+<b class="nc">&nbsp;                    int student_on=1;</b>
+<b class="nc">&nbsp;                    while(student_on==1){</b>
+<b class="nc">&nbsp;                        int choice = student.ChooseFunction();</b>
+<b class="nc">&nbsp;                        switch (choice) {</b>
+&nbsp;                            case 1: {
+<b class="nc">&nbsp;                                float stu_cgpa = student.CGPA_calc(user);</b>
+<b class="nc">&nbsp;                                student.register(user,stu_cgpa,enrol_year);</b>
+&nbsp;                                //register
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 2: {
+<b class="nc">&nbsp;                                student.deregister(user);</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 3: {
+<b class="nc">&nbsp;                                float cgpa = student.CGPA_calc(user);</b>
+<b class="nc">&nbsp;                                System.out.println(&quot;CGPA: &quot; + cgpa);</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 4: {
+<b class="nc">&nbsp;                                student.view_grades(user);</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 5: {
+<b class="nc">&nbsp;                                student_on = 0;</b>
+&nbsp;                            }break;
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+&nbsp;                }
+<b class="nc">&nbsp;                break;</b>
+&nbsp;                case 3:{
+<b class="nc">&nbsp;                    String user = User.getId();</b>
+<b class="nc">&nbsp;                    String pass = User.getPassword();</b>
+<b class="nc">&nbsp;                    String enrol_year = User.find_User(user, pass, &quot;faculty&quot;);</b>
+<b class="nc">&nbsp;                    String validity = User.IsInvalid(enrol_year);</b>
+<b class="nc">&nbsp;                    if (validity.equals(&quot;Yes&quot;)) {</b>
+<b class="nc">&nbsp;                        User.InvalidUser();</b>
+<b class="nc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="nc">&nbsp;                    FacultyDetails faculty = new FacultyDetails(user, enrol_year, pass);</b>
+<b class="nc">&nbsp;                    int faculty_on=1;</b>
+<b class="nc">&nbsp;                    while(faculty_on==1){</b>
+<b class="nc">&nbsp;                        int choice = faculty.ChooseFunction();</b>
+<b class="nc">&nbsp;                        switch (choice) {</b>
+&nbsp;                            case 1: {
+<b class="nc">&nbsp;                                faculty.course_offer(user);</b>
+&nbsp;                                //Offer a course
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 2: {
+<b class="nc">&nbsp;                                faculty.uploadCSV();</b>
+&nbsp;                                //upload .csv
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 3: {
+<b class="nc">&nbsp;                                faculty.view_grades();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 4: {
+<b class="nc">&nbsp;                                faculty.deregister();</b>
+<b class="nc">&nbsp;                            }break;</b>
+&nbsp;                            case 5: {
+<b class="nc">&nbsp;                                faculty_on = 0;</b>
+&nbsp;                            }break;
+&nbsp;                        }
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                }break;</b>
+&nbsp;                case 4:{
+<b class="nc">&nbsp;                    exit=true;</b>
+&nbsp;                }break;
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-08 03:09</div>
+</div>
+</body>
+</html>

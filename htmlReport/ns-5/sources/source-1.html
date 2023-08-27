@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Delete</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.user.database</a>
+</div>
+
+<h1>Coverage Summary for Class: Delete (org.example.user.database)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Delete</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82.9%
+  </span>
+  <span class="absValue">
+    (34/41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.user.database;
+&nbsp;
+&nbsp;import java.sql.Connection;
+&nbsp;import java.sql.DriverManager;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.Statement;
+&nbsp;
+<b class="nc">&nbsp;public class Delete {</b>
+&nbsp;
+&nbsp;    public static int delete_course_admin(String query1,String query2) {
+<b class="fc">&nbsp;        Connection c = null;</b>
+<b class="fc">&nbsp;        Statement stmt = null;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            Class.forName(&quot;org.postgresql.Driver&quot;);</b>
+<b class="fc">&nbsp;            c = DriverManager</b>
+<b class="fc">&nbsp;                    .getConnection(&quot;jdbc:postgresql://localhost:5432/db&quot;,</b>
+&nbsp;                            &quot;postgres&quot;, &quot;HK-tr-02&quot;);
+<b class="fc">&nbsp;            stmt = c.createStatement();</b>
+<b class="fc">&nbsp;            ResultSet rs = stmt.executeQuery(query1);</b>
+<b class="fc">&nbsp;            stmt = c.createStatement();</b>
+<b class="fc">&nbsp;            if(rs.next()==false){System.out.println(&quot;Course ID with specified year doesn&#39;t exist&quot;); return 0;};</b>
+<b class="fc">&nbsp;            rs.close();</b>
+<b class="fc">&nbsp;           stmt.executeUpdate(query2);</b>
+<b class="fc">&nbsp;           System.out.println(&quot;Deleted Successfully&quot;);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int delete_course_faculty(String query1,String query2) {
+<b class="fc">&nbsp;        Connection c = null;</b>
+<b class="fc">&nbsp;        Statement stmt = null;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            Class.forName(&quot;org.postgresql.Driver&quot;);</b>
+<b class="fc">&nbsp;            c = DriverManager</b>
+<b class="fc">&nbsp;                    .getConnection(&quot;jdbc:postgresql://localhost:5432/db&quot;,</b>
+&nbsp;                            &quot;postgres&quot;, &quot;HK-tr-02&quot;);
+<b class="fc">&nbsp;            stmt = c.createStatement();</b>
+<b class="fc">&nbsp;            stmt.executeUpdate(query1);</b>
+<b class="fc">&nbsp;            stmt = c.createStatement();</b>
+<b class="fc">&nbsp;            stmt.executeUpdate(query2);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void delete(String query1) {
+&nbsp;        //delete Course admin func
+<b class="fc">&nbsp;        Connection c = null;</b>
+<b class="fc">&nbsp;        Statement stmt = null;</b>
+&nbsp;        try {
+<b class="fc">&nbsp;            Class.forName(&quot;org.postgresql.Driver&quot;);</b>
+<b class="fc">&nbsp;            c = DriverManager</b>
+<b class="fc">&nbsp;                    .getConnection(&quot;jdbc:postgresql://localhost:5432/db&quot;,</b>
+&nbsp;                            &quot;postgres&quot;, &quot;HK-tr-02&quot;);
+<b class="fc">&nbsp;            stmt = c.createStatement();</b>
+<b class="fc">&nbsp;            stmt.executeUpdate(query1);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            e.printStackTrace();</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-08 03:09</div>
+</div>
+</body>
+</html>

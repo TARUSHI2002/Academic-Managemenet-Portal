@@ -1,0 +1,359 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > StudentDetails</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.example.user.student</a>
+</div>
+
+<h1>Coverage Summary for Class: StudentDetails (org.example.user.student)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StudentDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (161/161)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package org.example.user.student;
+&nbsp;
+&nbsp;import org.example.Course.Course;
+&nbsp;import org.example.user.User;
+&nbsp;import org.example.user.admin.AdminDetails;
+&nbsp;import org.example.user.database.Delete;
+&nbsp;import org.example.user.database.Search;
+&nbsp;import org.example.user.faculty.FacultyDetails;
+&nbsp;
+&nbsp;import java.io.BufferedReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.InputStreamReader;
+&nbsp;import java.sql.ResultSet;
+&nbsp;import java.sql.SQLException;
+&nbsp;import java.util.Formatter;
+&nbsp;import java.util.Scanner;
+&nbsp;import java.lang.Integer;
+&nbsp;public class StudentDetails extends User {
+&nbsp;    public StudentDetails(String id, String enrol_year, String password){
+<b class="fc">&nbsp;        super(id,enrol_year,password);</b>
+<b class="fc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    public static int ChooseFunction(){
+<b class="fc">&nbsp;        Scanner sc = new Scanner(System.in);</b>
+<b class="fc">&nbsp;        System.out.println(</b>
+&nbsp;                &quot;Hi!!Choose what you want to do?\n1.Register for a course\n2.DeRegister for a course\n3.View Current CGPA\n4.View Grades\n5.Logout&quot;);
+<b class="fc">&nbsp;        int choice = sc.nextInt();</b>
+<b class="fc">&nbsp;        return choice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static String getId() throws IOException {
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        System.out.print(&quot;Student ID: &quot;);</b>
+<b class="fc">&nbsp;        String user = br.readLine();</b>
+<b class="fc">&nbsp;        return user;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int grades_calc(String user) throws SQLException {
+<b class="fc">&nbsp;        int grades=0;</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT grade,credits FROM id_&quot;+user+&quot; where status = &#39;complete&#39; &quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            String found = rs.getString(&quot;grade&quot;);</b>
+<b class="fc">&nbsp;            int credits = rs.getInt(&quot;credits&quot;);</b>
+<b class="fc">&nbsp;            if(found.equals(&quot;10&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(10*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;9&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(9*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;8&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(8*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;7&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(7*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;6&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(6*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;5&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(5*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            else if(found.equals(&quot;4&quot;)){</b>
+<b class="fc">&nbsp;                grades=grades+(4*credits);</b>
+&nbsp;            }
+&nbsp;            else{
+<b class="fc">&nbsp;                grades=grades+(3*credits);</b>
+&nbsp;            }
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return grades;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int credits_calc(String user) throws SQLException {
+<b class="fc">&nbsp;        int credits=0;</b>
+<b class="fc">&nbsp;        ResultSet rs =  Search.find(&quot;SELECT * FROM id_&quot;+user+&quot; where status=&#39;complete&#39;&quot;);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return credits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static float CGPA_calc(String user) throws SQLException {
+<b class="fc">&nbsp;        int grades=grades_calc(user);</b>
+<b class="fc">&nbsp;        int credits=credits_calc(user);</b>
+<b class="fc">&nbsp;        if(credits==0) return 0;</b>
+<b class="fc">&nbsp;        float cgpa= (float) grades/credits;</b>
+<b class="fc">&nbsp;        return cgpa;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int view_grades(String user) throws SQLException {
+<b class="fc">&nbsp;        int count=0;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(&quot;SELECT * FROM id_&quot;+user+&quot; where status=&#39;complete&#39;&quot;);</b>
+<b class="fc">&nbsp;        Formatter fmt = new Formatter();</b>
+<b class="fc">&nbsp;        fmt.format(&quot;%15s %15s\n&quot;,&quot;Grade&quot;, &quot;Course&quot;);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            fmt.format(&quot;%15s %15s\n&quot;,rs.getString(&quot;grade&quot;), rs.getString(&quot;course_code&quot;));</b>
+<b class="fc">&nbsp;            ++count;}</b>
+<b class="fc">&nbsp;        System.out.println(fmt);</b>
+<b class="fc">&nbsp;        return count;</b>
+&nbsp;    }
+&nbsp;    public static int deregister(String user) throws IOException, SQLException {
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        String course = Course.getCourseCode(br);</b>
+<b class="fc">&nbsp;        String curr_year = AdminDetails.getCurrYear();</b>
+<b class="fc">&nbsp;        int allowed = AdminDetails.getCurrCond();</b>
+<b class="fc">&nbsp;        if(allowed == 2){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;}</b>
+<b class="fc">&nbsp;        String query1 = &quot;DELETE FROM c_&quot;+course+&quot;_&quot;+curr_year+&quot; where id=&#39;&quot;+user+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        String query2 = &quot;DELETE FROM id_&quot;+user+&quot; WHERE course_code=&#39;&quot;+course+&quot;&#39;&quot;;</b>
+<b class="fc">&nbsp;        Delete.delete_course_faculty(query1,query2);</b>
+<b class="fc">&nbsp;        return 1;}</b>
+&nbsp;    public static int prev2cred(String user,String curr_year, int curr_sem,String enrol_year) throws SQLException {
+<b class="fc">&nbsp;        int credits=0;</b>
+<b class="fc">&nbsp;        int curr=Integer.parseInt(curr_year);</b>
+<b class="fc">&nbsp;        int enrol=Integer.parseInt(enrol_year);</b>
+<b class="fc">&nbsp;        int year=curr-enrol;</b>
+<b class="fc">&nbsp;        if(curr_sem==1){</b>
+<b class="fc">&nbsp;            String query = &quot;SELECT * FROM id_&quot;+user+&quot; WHERE year = &quot;+year;</b>
+<b class="fc">&nbsp;            ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;            while(rs.next()){</b>
+<b class="fc">&nbsp;                credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return credits;</b>
+&nbsp;        }
+&nbsp;        else{
+<b class="fc">&nbsp;            String query = &quot;SELECT * FROM id_&quot;+user+&quot; WHERE year = &quot;+year+&quot;AND sem=2&quot;;</b>
+<b class="fc">&nbsp;            ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;            while (rs.next()) {</b>
+<b class="fc">&nbsp;                credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            year = year+1;</b>
+<b class="fc">&nbsp;            String query2 = &quot;SELECT * FROM id_&quot;+user+&quot; WHERE year = &quot;+year+&quot;AND sem=1&quot;;</b>
+<b class="fc">&nbsp;            ResultSet rs2 = Search.find(query2);</b>
+<b class="fc">&nbsp;            while(rs2.next()){</b>
+<b class="fc">&nbsp;                credits=credits+rs2.getInt(&quot;credits&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            return credits;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public static int calculatecredits(int course_year, int curr_sem,String user) throws SQLException {
+<b class="fc">&nbsp;        int credits=0;</b>
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM id_&quot;+user+&quot; WHERE year = &quot;+course_year+&quot;AND sem= &quot;+curr_sem;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        while (rs.next()) {</b>
+<b class="fc">&nbsp;            credits=credits+rs.getInt(&quot;credits&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return credits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static boolean passRequisite(String course_code, String user) throws SQLException {
+<b class="fc">&nbsp;        String query = &quot;SELECT * FROM id_&quot;+user+&quot; where course_code = &#39;&quot;+course_code+&quot;&#39; AND status = &#39;complete&#39;&quot;;</b>
+<b class="fc">&nbsp;        ResultSet rs = Search.find(query);</b>
+<b class="fc">&nbsp;        if(rs.next())return true;</b>
+<b class="fc">&nbsp;        else return false;</b>
+&nbsp;    }
+&nbsp;    public static int register(String user,Float stu_cgpa,String enrol_year) throws IOException, SQLException {
+&nbsp;
+<b class="fc">&nbsp;        int allowed = AdminDetails.getCurrCond();</b>
+<b class="fc">&nbsp;        if(allowed==2){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;        //get course code
+<b class="fc">&nbsp;        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));</b>
+<b class="fc">&nbsp;        String course = Course.getCourseCode(br);</b>
+&nbsp;
+&nbsp;        //cgpa criteria match
+<b class="fc">&nbsp;        float faculty_cgpa = FacultyDetails.getcgpa(course, AdminDetails.getCurrYear());</b>
+<b class="fc">&nbsp;        boolean isCGPAllowed = Course.IsCgpaAllow(stu_cgpa, faculty_cgpa);</b>
+<b class="fc">&nbsp;        System.out.println(isCGPAllowed);</b>
+<b class="fc">&nbsp;        if(isCGPAllowed==false) {System.out.println(&quot;Not allowed&quot;);return 0;}</b>
+&nbsp;
+&nbsp;
+&nbsp;        //enrol_year
+<b class="fc">&nbsp;        int e_year = Integer.parseInt(enrol_year);</b>
+&nbsp;        //curr_year
+<b class="fc">&nbsp;        int curr_year = Integer.parseInt(AdminDetails.getCurrYear());</b>
+&nbsp;        //year=curr_year-enrol_year+1
+<b class="fc">&nbsp;        int year = curr_year - e_year + 1;</b>
+&nbsp;        //year==course_catalog(year)
+<b class="fc">&nbsp;        int course_year = Course.getCourseYear(course);</b>
+<b class="fc">&nbsp;        boolean isYearAllowed = Course.IsYearAllow(year, course_year);</b>
+<b class="fc">&nbsp;        System.out.println(isYearAllowed);</b>
+<b class="fc">&nbsp;        if(isYearAllowed==false) {System.out.println(&quot;Not allowed&quot;);return 0;}</b>
+&nbsp;        //sem
+<b class="fc">&nbsp;        int curr_sem = AdminDetails.getCurrSem();</b>
+<b class="fc">&nbsp;        int allowed_sem = Course.getCourseSem(course);</b>
+<b class="fc">&nbsp;        boolean isSemAllowed = Course.IsSemAllow(curr_sem, allowed_sem);</b>
+<b class="fc">&nbsp;        System.out.println(isSemAllowed);</b>
+<b class="fc">&nbsp;        if(isSemAllowed==false) {System.out.println(&quot;Not allowed&quot;);return 0;}</b>
+&nbsp;        //branch which of student
+<b class="fc">&nbsp;        String type = null;</b>
+<b class="fc">&nbsp;        String stu_type = user.substring(4, 6);</b>
+<b class="fc">&nbsp;        System.out.println(stu_type);</b>
+&nbsp;        //check branch type in course catalog-core
+<b class="fc">&nbsp;        String core = Course.GetCore(course);</b>
+&nbsp;        //elective
+<b class="fc">&nbsp;        String electives = Course.GetElectives(course);</b>
+&nbsp;        //check stu_type in core/elec
+<b class="fc">&nbsp;        Scanner scan = new Scanner(core);</b>
+<b class="fc">&nbsp;        scan.useDelimiter(&quot;,&quot;);</b>
+<b class="fc">&nbsp;        while (scan.hasNext()) {</b>
+<b class="fc">&nbsp;            if (scan.next().equals(stu_type)) {</b>
+<b class="fc">&nbsp;                type = &quot;core&quot;;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        scan = new Scanner(electives);</b>
+<b class="fc">&nbsp;        scan.useDelimiter(&quot;,&quot;);</b>
+<b class="fc">&nbsp;        while (scan.hasNext()) {</b>
+<b class="fc">&nbsp;            if (scan.next().equals(stu_type)) {</b>
+<b class="fc">&nbsp;                type = &quot;elective&quot;;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(type);</b>
+<b class="fc">&nbsp;        if(type==null){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        double credits_possible = 1.25 * ((StudentDetails.prev2cred(user, AdminDetails.getCurrYear(), curr_sem, enrol_year)) / 2);</b>
+<b class="fc">&nbsp;        System.out.println(credits_possible);</b>
+<b class="fc">&nbsp;        int credits_now = StudentDetails.calculatecredits(course_year, curr_sem, user);</b>
+<b class="fc">&nbsp;        System.out.println(credits_now);</b>
+<b class="fc">&nbsp;        boolean isCreditsAllowed = Course.IsCreditsAllow(credits_possible, credits_now + Course.findCredits(course));</b>
+<b class="fc">&nbsp;        if(year==1)isCreditsAllowed=true;</b>
+<b class="fc">&nbsp;        System.out.println(isCreditsAllowed);</b>
+<b class="fc">&nbsp;        if(isCreditsAllowed==false){</b>
+<b class="fc">&nbsp;            System.out.println(&quot;Not Allowed&quot;);</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+&nbsp;        //clearing pre-requisites
+<b class="fc">&nbsp;        String pre_req=&quot;&quot;;</b>
+<b class="fc">&nbsp;        pre_req = Course.getRequisite(course, year);</b>
+<b class="fc">&nbsp;        System.out.println(pre_req);</b>
+<b class="fc">&nbsp;        boolean clear = true;</b>
+<b class="fc">&nbsp;        if (!pre_req.equals(&quot;&quot;)) {</b>
+<b class="fc">&nbsp;            scan = new Scanner(pre_req);</b>
+<b class="fc">&nbsp;            scan.useDelimiter(&quot;,&quot;);</b>
+&nbsp;//            System.out.println(scan.next());
+<b class="fc">&nbsp;            while (scan.hasNext()) {</b>
+<b class="fc">&nbsp;                if (!StudentDetails.passRequisite(scan.next(), user)) clear = false;</b>
+&nbsp;//                System.out.println(scan.next());
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        boolean isRegisterAllowed = Course.isRegisterAllow(isCGPAllowed, isYearAllowed, isSemAllowed, isCreditsAllowed, clear);</b>
+<b class="fc">&nbsp;        System.out.println(isRegisterAllowed);</b>
+<b class="fc">&nbsp;        if (isRegisterAllowed) {</b>
+<b class="fc">&nbsp;            int credits = Course.findCredits(course);</b>
+<b class="fc">&nbsp;            Course.register(course, AdminDetails.getCurrYear(), user, year, curr_sem, credits, type);</b>
+<b class="fc">&nbsp;            return 1;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;Don&#39;t match the criteria!!&quot;);</b>
+<b class="fc">&nbsp;        return 0;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-03-08 03:09</div>
+</div>
+</body>
+</html>
